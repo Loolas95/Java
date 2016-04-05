@@ -10,15 +10,23 @@ import java.util.Random;
  */
 public abstract class Entity {
     public int x,y;
-    public boolean removed=false;
+    private boolean removed=false;
     protected Level level;
     protected final Random randomLevel = new Random();
 
     public void tick(){
 
     }
-    public void mainrender(Display display){
+    public void render(Display display){
 
     }
-
+    public void remove(){
+        removed=true;
+    }
+    public boolean isRemoved(){
+        return removed;
+    }
+    public void init(Level level){
+        this.level=level;
+    }
 }

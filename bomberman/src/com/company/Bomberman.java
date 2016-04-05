@@ -1,7 +1,10 @@
 package com.company;
 
+import com.company.Entity.Mob.Player;
+import com.company.Levels.FileLevel;
 import com.company.Levels.Level;
 import com.company.Levels.RandLevel;
+import com.company.Levels.TileInfo;
 import javafx.stage.Screen;
 
 import javax.swing.*;
@@ -17,6 +20,7 @@ public class Bomberman extends Canvas implements Runnable {
     private boolean running=false;
     private Keyboard key;
     private Level level;
+    private Player player;
 
     private JFrame frame;
     private Display display;
@@ -39,7 +43,11 @@ public class Bomberman extends Canvas implements Runnable {
         frame.setVisible(true);
 
         key=new Keyboard();
-        level=new RandLevel(40,22);
+       // level=new RandLevel(40,22);
+        level=new FileLevel("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Levels\\level1.txt");
+        TileInfo playerinfo=new TileInfo(1,1);
+        player=new Player(playerinfo.x(),playerinfo.y(),key);
+        player.init(level);
         addKeyListener(key);
 
         this.start();
@@ -63,11 +71,8 @@ public class Bomberman extends Canvas implements Runnable {
     }
     public void tick(){
         key.update();
-        if(key.up);
-        if(key.down);
-        if(key.left);
-        if(key.right);
-
+        player.tick(display);
+        level.tick();
 
     }
     public void mainrender(){
@@ -79,6 +84,7 @@ public class Bomberman extends Canvas implements Runnable {
         display.clear();
        // display.render();
         level.render(display);
+        player.render(display);
 
         for(int i=0;i<pxl.length;i++)
             pxl[i]=display.pxl[i];
