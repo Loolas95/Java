@@ -12,7 +12,8 @@ public class Tile {
 
     public static Tile floor=new FloorTile(Sprite.floor);
     public static Tile voidTile=new VoidTile(Sprite.voidSprite);
-    public static Tile bump=new FloorTile(Sprite.bump);
+    public static Tile bump=new BumpTile(Sprite.bump);
+    public static Tile bound=new BoundTile(Sprite.bound);
 
     public Tile(Sprite sprite){
         this.sprite=sprite;
@@ -21,7 +22,8 @@ public class Tile {
     public void render(int x, int y, Display display){
 
     }
-    public boolean solid(){
+    public boolean obstacle(){
         return false;
     }
+    public boolean breakable(){return false;}
 }

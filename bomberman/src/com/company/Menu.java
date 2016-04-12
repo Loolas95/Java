@@ -39,7 +39,7 @@ public class Menu extends JFrame{
         button_start.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Logowanie log = new Logowanie();
+                Log log = new Log();
                 //Bomberman game=new Bomberman();
                 frame.dispose();
                 tm.stop();
