@@ -28,30 +28,10 @@ public abstract class Mob extends Entity{
         if (ya < 0) dir = 0;
         if (!collision(xa, ya)) {
             if (((x + xa >= 0) && (x + xa <= display.width - 32) && (y + ya >= 0) && (y + ya <= display.height - 32))) {
-              /*  if (level.bombs.isEmpty()) {
-                    x += xa;
-                    y += ya;
-                } else {
-                    for (int i = 0; i < level.bombs.size(); i++) {
-                        for(int c=0;c<4;c++) {
-                            if (x+c%2*32 + xa <= level.bombs.get(i).xb + 32 && x+c%2*32 + xa >= level.bombs.get(i).xb && y+c/2*32 + ya <= level.bombs.get(i).yb + 32 && y+c/2*32 + ya >= level.bombs.get(i).yb) {
-                                if (!ismonster) {
-                                    x += xa;
-                                    y += ya;
-                                    return;
-                                }else{
-                                    x-=xa;
-                                    y-=ya;
-                                    return;
-                                }
-                            }else{*/
+
                                 x += xa;
                                 y += ya;
-                             /*   return;
-                            }
-                        }
-                    }
-                }*/
+
             }
         }
     }

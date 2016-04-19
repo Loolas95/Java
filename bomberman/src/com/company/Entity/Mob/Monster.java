@@ -47,9 +47,7 @@ public class Monster extends Mob {
         if(xa<0) xa=-1;
         if(xa>0) xa=1;
         if(anim<2000) {
-          // xa=rand.nextInt(2);
-           // ya=rand.nextInt(2);
-           // System.out.println(x,y);
+
             anim++;
         }
         else anim=0;
