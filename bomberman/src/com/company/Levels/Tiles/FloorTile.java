@@ -15,4 +15,10 @@ public class FloorTile extends Tile{
     public void render(int x, int y, Display display){
         display.tilerender(x*32,y*32,this);
     }
+    public boolean breakable(){
+        return false;
+    }
+    public boolean obstacle(){
+        return false;
+    }
 }
