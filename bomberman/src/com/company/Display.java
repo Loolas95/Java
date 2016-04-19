@@ -40,14 +40,14 @@ public class Display {
             }
         }
     }
-    public void tilerender(int a, int b, Sprite sprite){
+    public void spriterender(int a, int b, Sprite sprite){
         for(int y=0; y<sprite.fsize; y++){
             int yb=y+b;
             for(int x = 0; x<sprite.fsize; x++){
                 int xa=x+a;
                 if ((xa < 0) || (xa >= width) || (yb < 0) || (yb >= height)) break;
-                int colour=sprite.pxl[x+y*32];
-                if(colour!=0xfff2bd00) {
+                int colour=sprite.pxl[x+y*sprite.fsize];
+                if(colour!=0xffff00f0) {
                     pxl[xa + yb * width] = sprite.pxl[x + y * sprite.fsize];
                 }
             }
@@ -62,6 +62,21 @@ public class Display {
                 if(xa<0) xa=0;
                 int colour=sprite.pxl[x+y*32];
                 if(colour!=0xfff2bd00){
+                    pxl[xa+yb*width]=colour;
+                }
+            }
+        }
+    }
+    public void monsterrender(int a, int b, Sprite sprite){
+        for(int y=0; y<32; y++){
+            int yb=y+b;
+            for(int x = 0; x<32; x++){
+                int xa=x+a;
+                if ((xa < -32) || (xa >= width) || (yb < 0) || (yb >= height)) break;
+                if(xa<0) xa=0;
+                int colour=sprite.pxl[x+y*32];
+                if(colour!=0xfff2bd00){
+                    if(colour==0xff000000) colour=0xff0d2485;
                     pxl[xa+yb*width]=colour;
                 }
             }

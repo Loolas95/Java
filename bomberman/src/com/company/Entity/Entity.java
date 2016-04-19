@@ -14,7 +14,7 @@ public abstract class Entity {
     protected Level level;
     protected final Random randomLevel = new Random();
 
-    public void tick(){
+    public void tick(Display display){
 
     }
     public void render(Display display){

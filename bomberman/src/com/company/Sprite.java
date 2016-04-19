@@ -9,12 +9,25 @@ public class Sprite {
     public int[] pxl;
     private TilesSheet sheet;
 
+    //tiles
     public static Sprite floor=new Sprite(32,0,0, TilesSheet.tilesSheet);
     public static Sprite bump=new Sprite(32,1,0,TilesSheet.tilesSheet);
     public static Sprite voidSprite=new Sprite(32,0x1B87E0);
     public static Sprite bound=new Sprite(32,2,0,TilesSheet.tilesSheet);
-    public static Sprite bomb =new Sprite(32,0,1,TilesSheet.tilesSheet);
 
+    //bombsprites
+    public static Sprite bomb1 =new Sprite(32,0,1,TilesSheet.tilesSheet);
+    public static Sprite bomb2 =new Sprite(32,1,1,TilesSheet.tilesSheet);
+    public static Sprite bomb3 =new Sprite(32,2,1,TilesSheet.tilesSheet);
+
+    public static Sprite expl1 =new Sprite(96,0,1,TilesSheet.tilesSheet);
+    public static Sprite expl2 =new Sprite(96,1,1,TilesSheet.tilesSheet);
+    public static Sprite expl3 =new Sprite(96,2,1,TilesSheet.tilesSheet);
+    public static Sprite expl4 =new Sprite(96,3,1,TilesSheet.tilesSheet);
+    public static Sprite expl5 =new Sprite(96,4,1,TilesSheet.tilesSheet);
+
+
+    //playersrites
     public static Sprite player1_up =new Sprite(32,0,14,TilesSheet.tilesSheet);
     public static Sprite player1_up1 =new Sprite(32,0,13,TilesSheet.tilesSheet);
     public static Sprite player1_up2 =new Sprite(32,0,15,TilesSheet.tilesSheet);

@@ -1,5 +1,6 @@
 package com.company.Levels;
 
+import com.company.Entity.Mob.Monster;
 import com.company.Levels.Tiles.Tile;
 
 import java.io.BufferedReader;
@@ -43,6 +44,7 @@ public class FileLevel extends Level{
             e.printStackTrace();
             System.out.println("Nie mozna odczytac lvl z pliku");
         }
+
 
     }
     protected void createLevel(){
