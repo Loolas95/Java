@@ -3,6 +3,7 @@ package com.company.Entity.Mob;
 import com.company.Display;
 import com.company.Keyboard;
 import com.company.Levels.Level;
+import com.company.Levels.SaveLevel;
 import com.company.Sprite;
 
 
@@ -36,6 +37,9 @@ public class Player extends Mob{
         if(input.right) xa++;
         if(input.bomb){
             putbomb(x,y);
+        }
+        if(input.save){
+            new SaveLevel(this.level);
         }
         if(anim<2000)anim++;
         else anim=0;

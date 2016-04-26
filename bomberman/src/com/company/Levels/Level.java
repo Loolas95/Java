@@ -32,6 +32,9 @@ public class Level {
 
         loadLevel(path);
     }
+    public Level(){
+
+    }
 
     protected void loadLevel(String path) {
 

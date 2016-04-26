@@ -11,6 +11,7 @@ public class Info {
         this.x=x*tsize;
         this.y=y*tsize;
     }
+
     public int x(){
         return x;
     }

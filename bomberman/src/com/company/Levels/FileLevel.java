@@ -1,5 +1,6 @@
 package com.company.Levels;
 
+import com.company.Entity.Mob.Bomb;
 import com.company.Entity.Mob.Monster;
 import com.company.Levels.Tiles.Tile;
 
@@ -40,10 +41,22 @@ public class FileLevel extends Level{
 
             }
 
+         /*   while ((sCurrentLine = br.readLine()) != null) {
+                for(int j=0;j<Integer.parseInt(sCurrentLine);j++)
+                    br.readLine();
+                String[] pos=sCurrentLine.trim().split(" ");
+                Bomb b2=new Bomb(Integer.parseInt(pos[0]),Integer.parseInt(pos[1]));
+                add(b2);
+
+            }*/
+
+
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Nie mozna odczytac lvl z pliku");
         }
+
+
 
 
     }
