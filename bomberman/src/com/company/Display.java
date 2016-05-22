@@ -1,8 +1,9 @@
 package com.company;
 
-import com.company.Entity.Mob.Player;
 import com.company.Levels.Tiles.Tile;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Random;
 
 /**
@@ -66,6 +67,7 @@ public class Display {
                 }
             }
         }
+
     }
     public void monsterrender(int a, int b, Sprite sprite){
         for(int y=0; y<32; y++){
@@ -81,5 +83,14 @@ public class Display {
                 }
             }
         }
+    }
+    public void endGame(){
+        JFrame frame3=new JFrame();
+        frame3.setVisible(true);
+        frame3.setSize(300,400);
+        frame3.setLocationRelativeTo(null);
+        frame3.setBackground(Color.lightGray);
+        frame3.setLayout(null);
+        frame3.setBackground(Color.gray);
     }
 }

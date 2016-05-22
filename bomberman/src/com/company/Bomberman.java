@@ -1,24 +1,32 @@
 package com.company;
 
 import com.company.Entity.Mob.Monster;
+import com.company.Entity.Mob.MultiPlayer;
 import com.company.Entity.Mob.Player;
 import com.company.Levels.FileLevel;
-import com.company.Levels.Level;
 import com.company.Levels.Info;
+import com.company.Levels.Level;
+import com.company.Levels.RandLevel;
+import com.company.Net.GameClient;
+import com.company.Net.GameServer;
+import com.company.Net.Packet00Login;
+import javafx.stage.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 
 public class Bomberman extends Canvas implements Runnable {
     public static int width= 1280;
     public static int height=704;
     public static String title="Bomberman";
     private boolean running=false;
-    private Keyboard key;
-    private Level level;
+    public Keyboard key;
+    public Level level;
     private Player player;
     private Monster monster;
 
@@ -27,6 +35,8 @@ public class Bomberman extends Canvas implements Runnable {
     private BufferedImage img=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
     private int[] pxl=((DataBufferInt)img.getRaster().getDataBuffer()).getData();
 
+    private GameClient client;
+    private GameServer server;
     private Thread thread;
     public Bomberman(){
         Dimension size=new Dimension(width,height);
@@ -43,22 +53,31 @@ public class Bomberman extends Canvas implements Runnable {
         frame.setVisible(true);
 
         key=new Keyboard();
-       // level=new RandLevel(40,22);
+        // level=new RandLevel(40,22);
         level=new FileLevel("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Levels\\level1.txt");
-        Info playerinfo=new Info(1,1);
+        //Info playerinfo=new Info(1,1);
         //Info monsterinfo=new Info(30,17);
-        player=new Player(playerinfo.x(),playerinfo.y(),key,level);
+        player=new MultiPlayer(1,1,key,level,"player0",null,-1);
         level.add(player);
-        for(int i=0;i<4;i++) {
-            level.add(new Monster(10, 5, level));
-            level.add(new Monster(30, 17, level));
-        }
-       // monster=new Monster(monsterinfo.x(),monsterinfo.y());
-       // monster.init(level);
         addKeyListener(key);
+        Packet00Login login=new Packet00Login(player.getUsername());
 
+        for(int i=0;i<3;i++) {
+            level.add(new Monster(10, 5, level));
+            // level.add(new Monster(30, 17, level));
+        }
+        // monster=new Monster(monsterinfo.x(),monsterinfo.y());
+        // monster.init(level);
         this.start();
 
+        if(server!=null){
+            server.addConnection((MultiPlayer)player,login);
+        }
+
+        login.writeData(client);
+
+
+        //client.sendData("ping".getBytes());
     }
 
     public synchronized void start()
@@ -66,6 +85,23 @@ public class Bomberman extends Canvas implements Runnable {
         running=true;
         thread=new Thread(this,"Bomberman");
         thread.start();
+        if(JOptionPane.showConfirmDialog(this,"Uruchomic serwer?")==0){
+            try {
+                server=new GameServer(this);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
+            server.start();
+        }
+
+        try {
+            client=new GameClient(this,"localhost");
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        client.start();
     }
     public synchronized void stop()
     {
@@ -90,7 +126,7 @@ public class Bomberman extends Canvas implements Runnable {
             return;
         }
         display.clear();
-       // display.render();
+        // display.render();
         level.render(display);
         //player.render(display);
         //monster.render(display);

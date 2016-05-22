@@ -4,9 +4,6 @@ import com.company.Display;
 import com.company.Entity.Entity;
 import com.company.Sprite;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Karol on 2016-03-31.
  */

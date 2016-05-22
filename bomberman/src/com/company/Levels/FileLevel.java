@@ -1,9 +1,5 @@
 package com.company.Levels;
 
-import com.company.Entity.Mob.Bomb;
-import com.company.Entity.Mob.Monster;
-import com.company.Levels.Tiles.Tile;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -11,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by Karol on 2016-04-01.
  */
-public class FileLevel extends Level{
+public class FileLevel extends Level {
 
     public FileLevel(String path){
         super(path);

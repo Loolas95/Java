@@ -45,8 +45,10 @@ public class Level {
     }
     public void tick(Display display){
 
-        for(int i=0;i<monsters.size();i++){
+        for(int i=0;i<monsters.size();i++) {
             monsters.get(i).tick(display);
+        }
+        for(int i=0;i<monsters.size();i++) {
             if(attack(monsters.get(i).x,monsters.get(i).y)){
                 monsters.remove(i);
             }
@@ -63,6 +65,7 @@ public class Level {
                 explosion(bombs.get(i).x,bombs.get(i).y);
             }
         }
+
 
     }
     private void time(){

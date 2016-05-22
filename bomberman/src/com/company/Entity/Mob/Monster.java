@@ -2,7 +2,6 @@ package com.company.Entity.Mob;
 
 
 import com.company.Display;
-import com.company.Keyboard;
 import com.company.Levels.Level;
 import com.company.Sprite;
 

@@ -3,7 +3,6 @@ package com.company.Levels;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Created by Karol on 2016-04-26.

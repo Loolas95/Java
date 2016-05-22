@@ -2,12 +2,7 @@ package com.company.Entity.Mob;
 
 import com.company.Display;
 import com.company.Entity.Entity;
-import com.company.Levels.Tiles.Tile;
 import com.company.Sprite;
-
-import javax.swing.*;
-import java.util.TimerTask;
-import java.util.Timer;
 
 /**
  * Created by Karol on 2016-04-03.

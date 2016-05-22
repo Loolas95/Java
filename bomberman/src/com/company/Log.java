@@ -2,8 +2,14 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.sql.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import static java.sql.DriverManager.getConnection;
 
@@ -200,7 +206,7 @@ public class Log extends JFrame {
         frame.add(button_log);
 
         lTlo = new JLabel();
-        lTlo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Textures\\tlo.jpg"));
+        lTlo.setIcon(new ImageIcon("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Textures\\tlo.jpg"));
         lTlo.setBounds(0, 0, 400, 400);
         frame.add(lTlo);
 

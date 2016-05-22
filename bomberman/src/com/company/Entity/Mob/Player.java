@@ -10,24 +10,26 @@ import com.company.Sprite;
 /**
  * Created by Karol on 2016-03-31.
  */
-public class Player extends Mob{
+public class Player extends Mob {
     private Keyboard input;
     private Sprite sprite;
     private int anim=0;
     private int life=10;
     public boolean ismonster=false;
     private boolean moving;
+    private String username;
 
     public Player(Keyboard input){
         this.input=input;
         sprite=Sprite.player1_down;
     }
-    public Player(int x,int y,Keyboard input,Level level){
+    public Player(int x,int y,Keyboard input,Level level, String username){
         init(level);
-        this.x=x;
-        this.y=y;
+        this.x=x*32;
+        this.y=y*32;
         this.input=input;
         sprite=Sprite.player1_down;
+        this.username=username;
     }
     public void tick(Display display){
         int xa=0,ya=0;
@@ -72,6 +74,9 @@ public class Player extends Mob{
     }
     public int getLife(){
         return life;
+    }
+    public String getUsername(){
+        return username;
     }
     public void minuslife(){
         life--;
