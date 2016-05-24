@@ -153,7 +153,7 @@ public class Log extends JFrame {
                                                     }
                                                     System.out.println("Baza zaaktualizowana");
                                                     frame3.dispose();
-                                                    Bomberman game = new Bomberman();
+                                                    Bomberman game = new Bomberman(login);
                                                     frame.dispose();
                                                 }
                                             });
@@ -187,7 +187,7 @@ public class Log extends JFrame {
                                 frame2.add(lj2);
 
                             }else {
-                                Bomberman game = new Bomberman();
+                                Bomberman game = new Bomberman(login);
                                 frame.dispose();
                             }
                         }
@@ -206,7 +206,7 @@ public class Log extends JFrame {
         frame.add(button_log);
 
         lTlo = new JLabel();
-        lTlo.setIcon(new ImageIcon("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Textures\\tlo.jpg"));
+        lTlo.setIcon(new ImageIcon("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Textures\\tlo.jpg"));
         lTlo.setBounds(0, 0, 400, 400);
         frame.add(lTlo);
 

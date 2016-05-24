@@ -26,6 +26,9 @@ public class Sprite {
     public static Sprite expl4 =new Sprite(96,3,1, TilesSheet.tilesSheet);
     public static Sprite expl5 =new Sprite(96,4,1, TilesSheet.tilesSheet);
 
+    //bonus
+    public static Sprite bonus =new Sprite(32,3,1, TilesSheet.tilesSheet);
+
 
     //playersrites
     public static Sprite player1_up =new Sprite(32,0,14, TilesSheet.tilesSheet);

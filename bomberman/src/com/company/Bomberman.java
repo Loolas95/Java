@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Entity.Mob.Bonus;
 import com.company.Entity.Mob.Monster;
 import com.company.Entity.Mob.MultiPlayer;
 import com.company.Entity.Mob.Player;
@@ -27,22 +28,25 @@ public class Bomberman extends Canvas implements Runnable {
     private boolean running=false;
     public Keyboard key;
     public Level level;
-    private Player player;
+    public Player player;
     private Monster monster;
+    private boolean updated=false;
 
-    private JFrame frame;
+    public JFrame frame;
     private Display display;
     private BufferedImage img=new BufferedImage(width,height,BufferedImage.TYPE_INT_RGB);
     private int[] pxl=((DataBufferInt)img.getRaster().getDataBuffer()).getData();
 
-    private GameClient client;
-    private GameServer server;
+    public GameClient client;
+    public GameServer server;
+    public Window window;
     private Thread thread;
-    public Bomberman(){
+    private String name;
+    public Bomberman(String name){
         Dimension size=new Dimension(width,height);
         setPreferredSize(size);
         display=new Display(width,height);
-
+        this.name=name;
         frame=new JFrame();
         frame.setResizable(false);
         frame.setTitle(title);
@@ -53,29 +57,36 @@ public class Bomberman extends Canvas implements Runnable {
         frame.setVisible(true);
 
         key=new Keyboard();
+        window=new Window(this);
         // level=new RandLevel(40,22);
-        level=new FileLevel("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Levels\\level1.txt");
+        level=new FileLevel("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Levels\\level1.txt");
         //Info playerinfo=new Info(1,1);
         //Info monsterinfo=new Info(30,17);
-        player=new MultiPlayer(1,1,key,level,"player0",null,-1);
+        player=new MultiPlayer(1,1,key,level,JOptionPane.showInputDialog(this,"podaj imie"),null,-1);
         level.add(player);
         addKeyListener(key);
+        this.start();
         Packet00Login login=new Packet00Login(player.getUsername());
 
-        for(int i=0;i<3;i++) {
+        for(int i=0;i<2;i++) {
             level.add(new Monster(10, 5, level));
             // level.add(new Monster(30, 17, level));
         }
+        for(int i=0;i<7;i++) {
+            level.add(new Bonus(level));
+        }
+
+
         // monster=new Monster(monsterinfo.x(),monsterinfo.y());
         // monster.init(level);
-        this.start();
+
 
         if(server!=null){
             server.addConnection((MultiPlayer)player,login);
         }
 
         login.writeData(client);
-
+        updated=false;
 
         //client.sendData("ping".getBytes());
     }
@@ -85,14 +96,14 @@ public class Bomberman extends Canvas implements Runnable {
         running=true;
         thread=new Thread(this,"Bomberman");
         thread.start();
-        if(JOptionPane.showConfirmDialog(this,"Uruchomic serwer?")==0){
+      //  if(JOptionPane.showConfirmDialog(this,"Uruchomic serwer?")==0){
             try {
                 server=new GameServer(this);
             } catch (SocketException e) {
                 e.printStackTrace();
             }
             server.start();
-        }
+       // }
 
         try {
             client=new GameClient(this,"localhost");
@@ -118,6 +129,12 @@ public class Bomberman extends Canvas implements Runnable {
 //        monster.tick(display);
         level.tick(display);
 
+        if(level.players.size()==0){
+            if(!updated) {
+                level.saveScore(name, player.getScore());
+                updated=true;
+            }
+        }
     }
     public void mainrender(){
         BufferStrategy bs=getBufferStrategy();
@@ -136,7 +153,7 @@ public class Bomberman extends Canvas implements Runnable {
         Graphics graph=bs.getDrawGraphics();
         graph.drawImage(img,0,0,width,height,null);
         graph.setFont(new Font("Verdana", 0,20));
-        if(level.players.size()!=0) graph.drawString("Life: "+level.players.get(0).getLife()+" Monsters: "+level.monsters.size(),40,20);
+        if(level.players.size()!=0) graph.drawString("Life: "+level.players.get(0).getLife()+" Monsters: "+level.monsters.size()+" Score: "+level.players.get(0).getScore(),40,20);
         graph.dispose();
         bs.show();
     }

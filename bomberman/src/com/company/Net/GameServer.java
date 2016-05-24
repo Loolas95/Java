@@ -47,48 +47,84 @@ public class GameServer extends Thread{
     }
 
     private void parsePacket(byte[] data, InetAddress address, int port) {
-        String msg=new String(data).trim();
-        Packet.Ptypes type=Packet.lookupPacket(msg.substring(0,2));
-        Packet packet=null;
-        switch (type){
+        String message = new String(data).trim();
+        Packet.Ptypes type = Packet.lookupPacket(message.substring(0, 2));
+        Packet packet = null;
+        switch (type) {
+            default:
             case INVALID:
                 break;
             case LOGIN:
-                packet=new Packet00Login(data);
-                System.out.println("["+address.getHostAddress()+":"+port+"]"+((Packet00Login)packet).getUsername()+" polaczony... ");
-                MultiPlayer player=new MultiPlayer(1,1,game.level,((Packet00Login)packet).getUsername(),address,port);
-                this.addConnection(player,(Packet00Login)packet);
+                packet = new Packet00Login(data);
+                System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+                        + ((Packet00Login) packet).getUsername() + " wszedl do gry...");
+                MultiPlayer player = new MultiPlayer(2,2,game.level,((Packet00Login) packet).getUsername(), address, port);
+                this.addConnection(player, (Packet00Login) packet);
                 break;
             case DISCONNECT:
+                packet = new Packet01Disconnect(data);
+                System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+                        +   ((Packet01Disconnect) packet).getUsername() + " opuszcza gre...");
+                this.removeConnection((Packet01Disconnect) packet);
                 break;
-            default:
         }
     }
 
+    public void removeConnection(Packet01Disconnect packet) {
+        this.conplayers.remove(getindex(packet.getUsername()));
+        packet.writeData(this);
+    }
+    public MultiPlayer getPlayer(String username){
+        for(MultiPlayer p:this.conplayers){
+            if(p.getUsername().equals(username))
+                return p;
+        }
+        return null;
+    }
+    public int getindex(String username){
+        int index=0;
+        for(MultiPlayer p:this.conplayers){
+            if(p.getUsername().equals(username)){
+                break;
+            }
+            index++;
+
+        }
+        return index;
+    }
+
     public void addConnection(MultiPlayer player, Packet00Login packet) {
-        boolean alreadyConnected=false;
-        for(int i = 0; i<this.conplayers.size(); i++){
-            if(this.conplayers.get(i).getUsername().equalsIgnoreCase(player.getUsername())) {
-                if (conplayers.get(i).ipadress == null) {
-                    conplayers.get(i).ipadress = player.ipadress;
+        boolean alreadyConnected = false;
+        for (MultiPlayer p : this.conplayers) {
+            if (player.getUsername().equalsIgnoreCase(p.getUsername())) {
+                if (p.ipadress == null) {
+                    p.ipadress = player.ipadress;
                 }
-                if (conplayers.get(i).port == -1) {
-                    conplayers.get(i).port = player.port;
+                if (p.port == -1) {
+                    p.port = player.port;
                 }
                 alreadyConnected = true;
-            }else{
-                sendData(packet.getData(), conplayers.get(i).ipadress, conplayers.get(i).port);
+            } else {
+                // relay to the current connected player that there is a new
+                // player
+                sendData(packet.getData(), p.ipadress, p.port);
+
+                // relay to the new player that the currently connect player
+                // exists
+                packet = new Packet00Login(p.getUsername());
+                sendData(packet.getData(), player.ipadress, player.port);
             }
         }
-        if(alreadyConnected){
+        if (!alreadyConnected) {
             this.conplayers.add(player);
         }
+
     }
 
     public void sendData(byte[] data, InetAddress ipadress, int port){
         DatagramPacket packet=new DatagramPacket(data,data.length,ipadress,port);
         try {
-           this.socket.send(packet);
+            this.socket.send(packet);
         } catch (IOException e) {
             e.printStackTrace();
         }

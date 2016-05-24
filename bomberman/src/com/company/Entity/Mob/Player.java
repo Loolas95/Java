@@ -6,6 +6,9 @@ import com.company.Levels.Level;
 import com.company.Levels.SaveLevel;
 import com.company.Sprite;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Created by Karol on 2016-03-31.
@@ -14,10 +17,13 @@ public class Player extends Mob {
     private Keyboard input;
     private Sprite sprite;
     private int anim=0;
-    private int life=10;
+    private int life=3;
     public boolean ismonster=false;
     private boolean moving;
     private String username;
+    private int accelerate=1;
+    private long timer=0;
+    private int score=0;
 
     public Player(Keyboard input){
         this.input=input;
@@ -33,15 +39,20 @@ public class Player extends Mob {
     }
     public void tick(Display display){
         int xa=0,ya=0;
-        if(input.up) ya--;
-        if(input.down) ya++;
-        if(input.left) xa--;
-        if(input.right) xa++;
-        if(input.bomb){
-            putbomb(x,y);
-        }
-        if(input.save){
-            new SaveLevel(this.level);
+
+        if(input!=null) {
+            if (input.up) ya-=accelerate;
+            if (input.down) ya+=accelerate;
+            if (input.left) xa-=accelerate;
+            if (input.right) xa+=accelerate;
+            if (input.bomb) {
+                putbomb(x, y);
+
+            }
+            if (input.save) {
+                new SaveLevel(this.level);
+                //level.saveScore();
+            }
         }
         if(anim<2000)anim++;
         else anim=0;
@@ -54,7 +65,14 @@ public class Player extends Mob {
         bombexpl();
         clear();
         if(life<=0)death();
+        slow();
       }
+
+    private void slow() {
+        if(System.currentTimeMillis()-timer>5000)
+            accelerate=1;
+    }
+
     private void clear(){
         for(int i=0;i<level.bombs.size();i++) {
             Bomb b1 = level.bombs.get(i);
@@ -78,8 +96,13 @@ public class Player extends Mob {
     public String getUsername(){
         return username;
     }
-    public void minuslife(){
-        life--;
+    public int getScore(){ return score;}
+    public void addScore(int counter){score+=5*counter;}
+    public void minuslife(){ life--; }
+    public void setAccelerate(){
+        timer=0;
+        accelerate=2;
+        timer=System.currentTimeMillis();
     }
     public void bombexpl(){
         for(int i=0;i<level.bombs.size();i++) {
