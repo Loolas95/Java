@@ -2,6 +2,7 @@ package com.company.Net;
 
 import com.company.Bomberman;
 import com.company.Entity.Mob.MultiPlayer;
+import com.sun.xml.internal.bind.v2.runtime.reflect.Lister;
 
 import java.io.IOException;
 import java.net.*;
@@ -36,7 +37,7 @@ public class GameClient extends Thread {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // System.out.println("serwer "+new String(packet.getData()));
+             //System.out.println("serwer "+new String(packet.getData()));
             this.parsePacket(packet.getData(),packet.getAddress(),packet.getPort());
         }
     }
@@ -48,7 +49,11 @@ public class GameClient extends Thread {
             case INVALID:
                 break;
             case LOGIN:
-                packet=new Packet00Login(data);
+                packet = new Packet00Login(data);
+                /*System.out.println("[" + address.getHostAddress() + ":" + port + "] "
+                        + ((Packet00Login) packet).getUsername() + " wszedl do gry...");
+                MultiPlayer player  = new MultiPlayer(64, 64 ,game.level, ((Packet00Login) packet).getUsername(), address, port);
+                game.level.add(player);*/
                 handleLogin((Packet00Login) packet, address, port);
                 break;
             case DISCONNECT:
@@ -57,9 +62,26 @@ public class GameClient extends Thread {
                         + ((Packet01Disconnect) packet).getUsername() + " opuscil gre...");
                 game.level.removePlayer(((Packet01Disconnect)packet).getUsername());
                 break;
+            case MOVE:
+                packet=new Packet02Move(data);
+                handleMove(((Packet02Move)packet));
+                break;
+            case BOMB:
+                packet=new Packet03Bomb(data);
+                handleBomb(((Packet03Bomb)packet));
             default:
         }
     }
+
+    private void handleBomb(Packet03Bomb packet) {
+        this.game.level.bombMP(packet.getUsername(),packet.getX(),packet.getY());
+    }
+
+    private void handleMove(Packet02Move packet) {
+        this.game.level.movePlayer(packet.getUsername(),packet.getX(),packet.getY(),packet.isMoving(),packet.getDir(),packet.getAnim());
+
+    }
+
     public void sendData(byte[] data){
         DatagramPacket packet=new DatagramPacket(data,data.length,ipadress,5555);
         try {
@@ -70,8 +92,8 @@ public class GameClient extends Thread {
     }
     private void handleLogin(Packet00Login packet, InetAddress address, int port) {
         System.out.println("[" + address.getHostAddress() + ":" + port + "] " + packet.getUsername()
-                + " has joined the game...");
-        MultiPlayer player = new MultiPlayer(1,1,game.level, packet.getUsername(), address, port);
+                + " wszedl do gry...");
+        MultiPlayer player = new MultiPlayer(32,32,game.level, packet.getUsername(), address, port);
         game.level.add(player);
     }
 

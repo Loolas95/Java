@@ -31,6 +31,7 @@ public class Bomberman extends Canvas implements Runnable {
     public Player player;
     private Monster monster;
     private boolean updated=false;
+    public static Bomberman game;
 
     public JFrame frame;
     private Display display;
@@ -43,6 +44,7 @@ public class Bomberman extends Canvas implements Runnable {
     private Thread thread;
     private String name;
     public Bomberman(String name){
+        game=this;
         Dimension size=new Dimension(width,height);
         setPreferredSize(size);
         display=new Display(width,height);
@@ -58,16 +60,13 @@ public class Bomberman extends Canvas implements Runnable {
 
         key=new Keyboard();
         window=new Window(this);
+
         // level=new RandLevel(40,22);
-        level=new FileLevel("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Levels\\level1.txt");
+        level=new FileLevel("bomberman\\src\\com\\company\\Levels\\level1.txt");
         //Info playerinfo=new Info(1,1);
         //Info monsterinfo=new Info(30,17);
-        player=new MultiPlayer(1,1,key,level,JOptionPane.showInputDialog(this,"podaj imie"),null,-1);
+        player=new MultiPlayer(32,32,key,level,JOptionPane.showInputDialog(this,"podaj imie"),null,-1);
         level.add(player);
-        addKeyListener(key);
-        this.start();
-        Packet00Login login=new Packet00Login(player.getUsername());
-
         for(int i=0;i<2;i++) {
             level.add(new Monster(10, 5, level));
             // level.add(new Monster(30, 17, level));
@@ -75,6 +74,13 @@ public class Bomberman extends Canvas implements Runnable {
         for(int i=0;i<7;i++) {
             level.add(new Bonus(level));
         }
+        this.start();
+
+        addKeyListener(key);
+
+        Packet00Login login=new Packet00Login(player.getUsername());
+
+
 
 
         // monster=new Monster(monsterinfo.x(),monsterinfo.y());
@@ -84,7 +90,6 @@ public class Bomberman extends Canvas implements Runnable {
         if(server!=null){
             server.addConnection((MultiPlayer)player,login);
         }
-
         login.writeData(client);
         updated=false;
 
@@ -96,14 +101,14 @@ public class Bomberman extends Canvas implements Runnable {
         running=true;
         thread=new Thread(this,"Bomberman");
         thread.start();
-      //  if(JOptionPane.showConfirmDialog(this,"Uruchomic serwer?")==0){
+        if(JOptionPane.showConfirmDialog(this,"Uruchomic serwer?")==0){
             try {
                 server=new GameServer(this);
             } catch (SocketException e) {
                 e.printStackTrace();
             }
             server.start();
-       // }
+       }
 
         try {
             client=new GameClient(this,"localhost");

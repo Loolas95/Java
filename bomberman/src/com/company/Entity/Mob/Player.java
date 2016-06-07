@@ -1,9 +1,13 @@
 package com.company.Entity.Mob;
 
+import com.company.Bomberman;
 import com.company.Display;
 import com.company.Keyboard;
 import com.company.Levels.Level;
 import com.company.Levels.SaveLevel;
+import com.company.Net.Packet00Login;
+import com.company.Net.Packet02Move;
+import com.company.Net.Packet03Bomb;
 import com.company.Sprite;
 
 import java.util.ArrayList;
@@ -16,6 +20,9 @@ import java.util.List;
 public class Player extends Mob {
     private Keyboard input;
     private Sprite sprite;
+
+
+
     private int anim=0;
     private int life=3;
     public boolean ismonster=false;
@@ -31,8 +38,8 @@ public class Player extends Mob {
     }
     public Player(int x,int y,Keyboard input,Level level, String username){
         init(level);
-        this.x=x*32;
-        this.y=y*32;
+        this.x=x;
+        this.y=y;
         this.input=input;
         sprite=Sprite.player1_down;
         this.username=username;
@@ -47,6 +54,8 @@ public class Player extends Mob {
             if (input.right) xa+=accelerate;
             if (input.bomb) {
                 putbomb(x, y);
+                Packet03Bomb packet=new Packet03Bomb(this.getUsername(),this.x,this.y);
+                packet.writeData(Bomberman.game.client);
 
             }
             if (input.save) {
@@ -59,6 +68,11 @@ public class Player extends Mob {
         if(xa!=0||ya!=0) {
             move(xa,ya,display, this.ismonster);
             moving=true;
+
+            Packet02Move packet=new Packet02Move(this.getUsername(),this.x,this.y,this.moving,this.dir,this.anim);
+            packet.writeData(Bomberman.game.client);
+
+
         }else {
             moving = false;
         }
@@ -119,6 +133,7 @@ public class Player extends Mob {
         }
     }
     public void render(Display display){
+        //System.out.println(username+moving);
         if(dir==0){
             sprite= Sprite.player1_up;
             if(moving){
@@ -150,5 +165,11 @@ public class Player extends Mob {
         if(life<0){}
         display.playerrender(x,y,sprite);
    }
+    public void setAnim(int anim) {
+        this.anim = anim;
+    }
 
+    public int getAnim() {
+        return anim;
+    }
 }

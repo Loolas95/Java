@@ -12,8 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.Statement;
+import java.util.Objects;
 
 import static java.sql.DriverManager.getConnection;
+import static java.sql.DriverManager.println;
 
 /**
  * Created by Karol on 2016-03-20.
@@ -216,6 +218,7 @@ public class Level {
             myStatement.setInt(1,score);
             myStatement.setString(2,name);
             myStatement.executeUpdate();
+            myConn.close();
             } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -224,4 +227,42 @@ public class Level {
     public int getWidth(){return width;}
     public int getHeight(){return height;}
     public int getTileInt(int x,int y){return tiles[x+y*width];}
+
+    private int getMultiPlayerindex (String username){
+        int index=0;
+        for(Player p:players){
+            if(p instanceof MultiPlayer && ((MultiPlayer)p).getUsername().equals(username)){
+                break;
+            }
+            index++;
+        }
+        return index;
+    }
+    public void movePlayer(String username, int x, int y,boolean moving, int dir, int anim){
+        int index=getMultiPlayerindex(username);
+        /*int tmpx=x;
+        int tmpy=y;
+        if(!Objects.equals(players.get(index).x,tmpx)||!Objects.equals(players.get(index).y,tmpy)){
+            int xi=tmpx-players.get(index).x;
+            int yi=tmpy-players.get(index).y;
+            players.get(index).move(xi,yi,this.
+        }
+
+       // */
+        this.players.get(index).x=x;
+        this.players.get(index).y=y;
+        this.players.get(index).setMoving(moving);
+        this.players.get(index).setDir(dir);
+        this.players.get(index).setAnim(anim);
+        //System.out.println(username+moving);
+
+
+
+    }
+
+    public void bombMP(String username, int x, int y) {
+        System.out.println(username+x+y);
+        int index=getMultiPlayerindex(username);
+        this.players.get(index).putbomb(x,y);
+    }
 }

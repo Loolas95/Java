@@ -13,7 +13,9 @@ public abstract class Mob extends Entity{
     protected boolean moving=false;
 
 
-    public void move(int xa, int ya,Display display, boolean ismonster) {
+
+
+    public void move(int xa, int ya, Display display, boolean ismonster) {
         if (xa != 0 && ya != 0) {
             move(xa, 0, display, ismonster);
             move(0, ya, display, ismonster);
@@ -67,7 +69,7 @@ public abstract class Mob extends Entity{
     public void tick(){
 
     }
-    protected void putbomb(int x, int y){
+    public void putbomb(int x, int y){
         if(!isbomb(x,y)) {
             Bomb b = new Bomb(x,y);
             level.add(b);
@@ -102,5 +104,12 @@ public abstract class Mob extends Entity{
     }
     public void render(){
 
+    }
+    public void setDir(int dir) {
+        this.dir = dir;
+    }
+
+    public void setMoving(boolean moving) {
+        this.moving = moving;
     }
 }

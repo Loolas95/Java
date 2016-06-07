@@ -5,7 +5,7 @@ package com.company.Net;
  */
 public abstract class Packet {
     public static enum Ptypes{
-        INVALID(-1),LOGIN(00), DISCONNECT(01);
+        INVALID(-1),LOGIN(00), DISCONNECT(01), MOVE(02), BOMB(03);
         private int packetid;
         private Ptypes(int packetid){
             this.packetid=packetid;

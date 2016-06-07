@@ -11,6 +11,7 @@ import java.net.InetAddress;
 public class MultiPlayer extends Player {
     public InetAddress ipadress;
     public int port;
+
     public MultiPlayer(int x, int y, Keyboard input, Level level, String username, InetAddress ipadress, int port) {
         super(x, y, input, level, username);
         this.ipadress=ipadress;

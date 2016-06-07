@@ -6,10 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import static java.sql.DriverManager.getConnection;
 
@@ -73,10 +70,14 @@ public class Log extends JFrame {
 
                     try {
                         Connection myConn = getConnection(url, user, pass);
-                        Statement myStatement = myConn.createStatement();
                         ResultSet rs;
-                        String sql1="select * from students where login='"+login+"'";
-                        rs=myStatement.executeQuery(sql1);
+                        String sql1="select * from students where login=? and password=?";
+
+                        PreparedStatement myStatement =  myConn.prepareStatement(sql1);
+                        myStatement.setString(1,login);
+                        myStatement.setString(2,password);
+                        rs=myStatement.executeQuery();
+
                         if(!rs.next()){
                             if(register.isSelected()) {
                                 JFrame frame3=new JFrame();
@@ -148,6 +149,7 @@ public class Log extends JFrame {
                                                     String sql = "insert into students values('" + login + "', '" + password + "','" + imie + "','" + nazwisko + "','" + email + "')";
                                                     try {
                                                         myStatement.executeUpdate(sql);
+                                                        myConn.close();
                                                     } catch (SQLException e1) {
                                                         e1.printStackTrace();
                                                     }

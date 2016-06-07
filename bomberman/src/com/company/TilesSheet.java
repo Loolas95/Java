@@ -13,7 +13,7 @@ public class TilesSheet {
     public final int fsize;
     public int[]pxl;
 
-    public static TilesSheet tilesSheet =new TilesSheet("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Textures\\tiles8.png",512);
+    public static TilesSheet tilesSheet =new TilesSheet("bomberman\\src\\com\\company\\Textures\\tiles8.png",512);
 
     public TilesSheet(String path, int size){
         this.path=path;

@@ -70,13 +70,13 @@ public class Menu extends JFrame{
 
         lTlo = new JLabel();
         lTlo2= new JLabel();
-        lTlo.setIcon(new ImageIcon("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Textures\\szary.jpg"));
+        lTlo.setIcon(new ImageIcon("bomberman\\src\\com\\company\\Textures\\szary.jpg"));
         lTlo.setBounds(0,0,400,400);
 
         tm = new Timer(20, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                lTlo2.setIcon(new ImageIcon("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Textures\\chopek.png"));
+                lTlo2.setIcon(new ImageIcon("bomberman\\src\\com\\company\\Textures\\chopek.png"));
                 lTlo2.setBounds(x, y, 400, 400);
                 if (x == 100 && !reversex){
                     reversex=true;

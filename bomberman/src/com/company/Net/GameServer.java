@@ -58,7 +58,7 @@ public class GameServer extends Thread{
                 packet = new Packet00Login(data);
                 System.out.println("[" + address.getHostAddress() + ":" + port + "] "
                         + ((Packet00Login) packet).getUsername() + " wszedl do gry...");
-                MultiPlayer player = new MultiPlayer(2,2,game.level,((Packet00Login) packet).getUsername(), address, port);
+                MultiPlayer player  = new MultiPlayer(64,64,game.key ,game.level, ((Packet00Login) packet).getUsername(), address, port);
                 this.addConnection(player, (Packet00Login) packet);
                 break;
             case DISCONNECT:
@@ -67,7 +67,38 @@ public class GameServer extends Thread{
                         +   ((Packet01Disconnect) packet).getUsername() + " opuszcza gre...");
                 this.removeConnection((Packet01Disconnect) packet);
                 break;
+            case MOVE:
+                packet = new Packet02Move(data);
+                System.out.println(((Packet02Move)packet).getUsername()+"przesunal sie na "+((Packet02Move)packet).getX()+", "+((Packet02Move)packet).getY());
+                this.handleMove(((Packet02Move)packet));
+                break;
+            case BOMB:
+                packet = new Packet03Bomb(data);
+                System.out.println(((Packet03Bomb)packet).getUsername()+"zrzucil bombe sie na "+((Packet03Bomb)packet).getX()+", "+((Packet03Bomb)packet).getY());
+                this.handleBomb(((Packet03Bomb)packet));
+                break;
         }
+    }
+
+    private void handleBomb(Packet03Bomb packet) {
+        if(getPlayer(packet.getUsername())!=null){
+            int i=getindex(packet.getUsername());
+            this.conplayers.get(i).putbomb(packet.getX(),packet.getY());
+            packet.writeData(this);
+        }
+    }
+
+    private void handleMove(Packet02Move packet) {
+        if(getPlayer(packet.getUsername())!=null){
+            int i=getindex(packet.getUsername());
+            this.conplayers.get(i).x=packet.getX();
+            this.conplayers.get(i).y=packet.getY();
+            this.conplayers.get(i).setMoving(packet.isMoving());
+            this.conplayers.get(i).setDir(packet.getDir());
+            this.conplayers.get(i).setAnim(packet.getAnim());
+            packet.writeData(this);
+        }
+
     }
 
     public void removeConnection(Packet01Disconnect packet) {
@@ -105,18 +136,18 @@ public class GameServer extends Thread{
                 }
                 alreadyConnected = true;
             } else {
-                // relay to the current connected player that there is a new
-                // player
+
                 sendData(packet.getData(), p.ipadress, p.port);
 
                 // relay to the new player that the currently connect player
                 // exists
                 packet = new Packet00Login(p.getUsername());
-                sendData(packet.getData(), player.ipadress, player.port);
+                sendData(packet.getData(), player.ipadress,player.port);
             }
         }
         if (!alreadyConnected) {
             this.conplayers.add(player);
+            //packet.writeData(this);
         }
 
     }
@@ -130,8 +161,8 @@ public class GameServer extends Thread{
         }
     }
     public void sendDataToAllClients(byte[] data){
-        for(int i = 0; i< conplayers.size(); i++){
-            sendData(data, conplayers.get(i).ipadress, conplayers.get(i).port);
+        for(MultiPlayer m: conplayers){
+            sendData(data, m.ipadress,m.port);
         }
     }
 
