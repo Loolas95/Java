@@ -18,7 +18,7 @@ public class FloorTile extends Tile{
     public boolean breakable(){
         return false;
     }
-    public boolean solid(){
+    public boolean obstacle(){
         return false;
     }
 }

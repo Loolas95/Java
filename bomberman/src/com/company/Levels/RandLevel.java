@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Created by Karol on 2016-03-20.
  */
-public class RandLevel extends Level{
+public class RandLevel extends Level {
 
     private static final Random rand=new Random();
     public RandLevel(int width, int height){

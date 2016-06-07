@@ -13,7 +13,7 @@ public class BoundTile extends Tile{
     public void render(int x, int y, Display display){
         display.tilerender(x*32,y*32,this);
     }
-    public boolean solid(){
+    public boolean obstacle(){
         return true;
     }
     public boolean breakable(){

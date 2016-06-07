@@ -1,7 +1,5 @@
 package com.company.Levels;
 
-import com.company.Levels.Tiles.Tile;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +7,7 @@ import java.io.IOException;
 /**
  * Created by Karol on 2016-04-01.
  */
-public class FileLevel extends Level{
+public class FileLevel extends Level {
 
     public FileLevel(String path){
         super(path);
@@ -39,10 +37,23 @@ public class FileLevel extends Level{
 
             }
 
+         /*   while ((sCurrentLine = br.readLine()) != null) {
+                for(int j=0;j<Integer.parseInt(sCurrentLine);j++)
+                    br.readLine();
+                String[] pos=sCurrentLine.trim().split(" ");
+                Bomb b2=new Bomb(Integer.parseInt(pos[0]),Integer.parseInt(pos[1]));
+                add(b2);
+
+            }*/
+
+
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Nie mozna odczytac lvl z pliku");
         }
+
+
+
 
     }
     protected void createLevel(){

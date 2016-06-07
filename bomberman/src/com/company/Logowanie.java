@@ -2,7 +2,10 @@ package com.company;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /**
@@ -51,7 +54,7 @@ public class Logowanie extends JFrame {
         button_log.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Bomberman game=new Bomberman();
+               // Bomberman game=new Bomberman(login);
                 frame.dispose();
             }
         });
@@ -62,7 +65,7 @@ public class Logowanie extends JFrame {
         frame.add(button_log);
 
         lTlo = new JLabel();
-        lTlo.setIcon(new javax.swing.ImageIcon("C:\\Users\\Karol\\IdeaProjects\\bomberman\\src\\com\\company\\Textures\\tlo.jpg"));
+        lTlo.setIcon(new ImageIcon("C:\\Users\\Karol\\Desktop\\Java_lato_2015-2016_Karol_Rodak\\bomberman\\src\\com\\company\\Textures\\tlo.jpg"));
         lTlo.setBounds(0, 0, 400, 400);
         frame.add(lTlo);
 

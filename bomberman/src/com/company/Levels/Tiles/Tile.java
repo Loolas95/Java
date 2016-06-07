@@ -22,7 +22,7 @@ public class Tile {
     public void render(int x, int y, Display display){
 
     }
-    public boolean solid(){
+    public boolean obstacle(){
         return false;
     }
     public boolean breakable(){return false;}
